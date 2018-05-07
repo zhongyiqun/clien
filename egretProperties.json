@@ -34,6 +34,18 @@
       "name": "socket"
     },
     {
+			"name": "puremvc",
+			"path": "../modules/puremvc"
+		},
+		{
+			"name": "protobuf",
+			"path": "../modules/protobuf"
+		},
+		{
+			"name": "newaes",
+			"path": "../modules/newaes"
+		},
+    {
       "name": "promise"
     }
   ]
