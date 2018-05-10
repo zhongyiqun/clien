@@ -40,21 +40,47 @@ var LoadingUI = (function (_super) {
     __extends(LoadingUI, _super);
     function LoadingUI() {
         var _this = _super.call(this) || this;
+        _this.w = 0;
+        _this.h = 0;
         _this.createView();
         return _this;
     }
     LoadingUI.prototype.createView = function () {
+        this.w = egret.MainContext.instance.stage.stageWidth;
+        this.h = egret.MainContext.instance.stage.stageHeight;
+        this.bg = new egret.Bitmap;
+        this.bg.texture = RES.getRes("PreLoadingBg_png");
+        this.addChild(this.bg);
+        this.pgBg = new egret.Bitmap;
+        this.pgBg.texture = RES.getRes("PreLoadingBarBg_png");
+        this.pgBg.x = this.w / 2 - this.pgBg.width / 2;
+        this.pgBg.y = this.h - this.pgBg.height - 50;
+        this.addChild(this.pgBg);
+        this.pgBar = new egret.Bitmap;
+        this.pgBar.texture = RES.getRes("PreLoadingBar_png");
+        this.pgBar.x = this.w / 2 - this.pgBar.width / 2;
+        this.pgBar.y = this.pgBg.y + 20;
+        this.addChild(this.pgBar);
         this.textField = new egret.TextField();
+        this.textField.size = 24;
+        this.textField.textColor = 0xFFFFFF;
+        this.textField.bold = true;
+        this.textField.stroke = 1;
+        this.textField.strokeColor = 0x000000;
         this.addChild(this.textField);
-        this.textField.y = 300;
-        this.textField.width = 480;
-        this.textField.height = 100;
+        this.textField.width = 100;
+        this.textField.x = this.w / 2 - this.textField.width / 2;
+        this.textField.y = this.pgBg.y + 20;
         this.textField.textAlign = "center";
+        this.textField.text = "0%";
+        this.pgBar.width = 0;
     };
-    LoadingUI.prototype.onProgress = function (current, total) {
-        this.textField.text = "Loading..." + current + "/" + total;
+    LoadingUI.prototype.setProgress = function (current, total) {
+        var rate = Math.round((current / total) * 100);
+        this.textField.text = rate + "%";
+        this.pgBar.width = 641 * (current / total);
     };
     return LoadingUI;
-}(egret.Sprite));
-__reflect(LoadingUI.prototype, "LoadingUI", ["RES.PromiseTaskReporter"]);
+}(eui.UILayer));
+__reflect(LoadingUI.prototype, "LoadingUI");
 //# sourceMappingURL=LoadingUI.js.map
